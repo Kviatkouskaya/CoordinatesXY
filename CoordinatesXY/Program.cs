@@ -27,7 +27,7 @@ namespace CoordinatesXY
         }
         public static void PrintCoordinates()
         {
-            foreach (var item in coordinatesList)
+            foreach (string item in coordinatesList)
             {
                 string line = FormatingLine(item);
                 Console.WriteLine(line);
