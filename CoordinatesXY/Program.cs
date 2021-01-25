@@ -25,11 +25,11 @@ namespace CoordinatesXY
             line = line.Replace('.', ',');
             return line;
         }
-        public static void PrintCoordinates(List<string> finalList)
+        public static void PrintCoordinates()
         {
-            foreach (var item in finalList)
+            foreach (var item in coordinatesList)
             {
-                string line =FormatingLine(item);
+                string line = FormatingLine(item);
                 Console.WriteLine(line);
             }
         }
@@ -39,7 +39,7 @@ namespace CoordinatesXY
             coordinatesList = new List<string>();
             ReadingLines();
             Console.WriteLine("Result:");
-            PrintCoordinates(coordinatesList);
+            PrintCoordinates();
         }
     }
 }
