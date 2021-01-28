@@ -13,71 +13,73 @@ namespace CoordinatesXY
             line = line.Replace('.', ',');
             return line;
         }
-    }
-    class Program
-    {
-        private static CoordinatesXY ReadingLine(string line)
+        public static CoordinatesXY ParseLine(string line)
         {
             CheckExceptions(line);
             CoordinatesXY coordinates = new CoordinatesXY();
             int commaIndex = line.IndexOf(',');
             coordinates.X = line[..commaIndex++];
             coordinates.Y = line[commaIndex..];
-
-            /*
-             Boolean isDouble(string stringNumber)
+            if (IsDouble(coordinates.X) && IsDouble(coordinates.Y))
             {
-                try
-                {
-                    double.TryParse(stringNumber, out double x);
-                    return true;
-                }
-                catch (FormatException)
-                {
-                    return false;
-                }
-            }*/
+                return coordinates;
+            }
             return coordinates;
         }
-        public static void CheckExceptions(string checkingLine)
+        private static void CheckExceptions(string checkingLine)
         {
             if (checkingLine.IndexOf(',') != checkingLine.LastIndexOf(','))
             {
-                throw new FormatException(message: "Please, enter only two coordinates");
+                throw new FormatException(message: "Entered more than two coordinates at one line");
             }
         }
-        static void Main()
+        private static Boolean IsDouble(string stringNumber)
         {
-            List<string> linesList = new List<string>();
-            FullingLineList(linesList);
-            List<CoordinatesXY> coordinatesList = new List<CoordinatesXY>();
-            FullingCoordinatesList(coordinatesList, linesList);
+            try
+            {
+                double.TryParse(stringNumber, out double x);
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+    }
+    class Program
+    {
+        private static IList<string> ReadLineList()
+        {
+            IList<string> linesList = new List<string>();
+            string line = Console.ReadLine();
+            while (line != string.Empty)
+            {
+                linesList.Add(line);
+                line = Console.ReadLine();
+            }
+            return linesList;
+        }
+        private static IList<CoordinatesXY> MapLinesToCoords(IList<string> linesList)
+        {
+            IList<CoordinatesXY> coordinatesList = new List<CoordinatesXY>();
+            foreach (var item in linesList)
+            {
+                coordinatesList.Add(CoordinatesXY.ParseLine(item));
+            }
+            return coordinatesList;
+        }
+        private static void PrintResult(IList<CoordinatesXY> coordinates)
+        {
+            foreach (var item in coordinates)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public static void Main()
+        {
+            IList<string> linesList = ReadLineList();
+            IList<CoordinatesXY> coordinatesList = MapLinesToCoords(linesList);
             PrintResult(coordinatesList);
-
-            static void FullingLineList(List<string> linesList)
-            {
-                string line = Console.ReadLine();
-                while (line != string.Empty)
-                {
-                    linesList.Add(line);
-                    line = Console.ReadLine();
-                }
-            }
-            static void FullingCoordinatesList(List<CoordinatesXY> coordinateList, List<string> linesList)
-            {
-                foreach (var item in linesList)
-                {
-                    coordinateList.Add(ReadingLine(item));
-                }
-            }
-
-            static void PrintResult(List<CoordinatesXY>coordinates)
-            {
-                foreach (var item in coordinates)
-                {
-                    Console.WriteLine(item);
-                }
-            }
         }
     }
 }
