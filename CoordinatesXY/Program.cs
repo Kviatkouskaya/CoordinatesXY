@@ -36,10 +36,9 @@ namespace CoordinatesXY
         }
         private static bool IsDouble(string stringNumber)
         {
-            bool v = double.TryParse(stringNumber, 
-                                     NumberStyles.AllowDecimalPoint, 
+            return double.TryParse(stringNumber,
+                                     NumberStyles.AllowDecimalPoint,
                                      CultureInfo.InvariantCulture, out _);
-            return v;
         }
     }
     class Program
