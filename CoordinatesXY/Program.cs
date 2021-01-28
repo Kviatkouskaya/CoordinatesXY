@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace CoordinatesXY
 {
@@ -35,7 +36,9 @@ namespace CoordinatesXY
         }
         private static bool IsDouble(string stringNumber)
         {
-            bool v = double.TryParse(stringNumber, out double x);
+            bool v = double.TryParse(stringNumber, 
+                                     NumberStyles.AllowDecimalPoint, 
+                                     CultureInfo.InvariantCulture, out _);
             return v;
         }
     }
