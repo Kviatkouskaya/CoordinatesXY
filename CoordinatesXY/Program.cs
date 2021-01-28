@@ -24,26 +24,19 @@ namespace CoordinatesXY
             {
                 return coordinates;
             }
-            return coordinates;
+            throw new FormatException("Expect two double coordinates");
         }
         private static void CheckExceptions(string checkingLine)
         {
             if (checkingLine.IndexOf(',') != checkingLine.LastIndexOf(','))
             {
-                throw new FormatException(message: "Entered more than two coordinates at one line");
+                throw new FormatException("Entered more than two coordinates at one line");
             }
         }
-        private static Boolean IsDouble(string stringNumber)
+        private static bool IsDouble(string stringNumber)
         {
-            try
-            {
-                double.TryParse(stringNumber, out double x);
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
+            bool v = double.TryParse(stringNumber, out double x);
+            return v;
         }
     }
     class Program
@@ -64,7 +57,14 @@ namespace CoordinatesXY
             IList<CoordinatesXY> coordinatesList = new List<CoordinatesXY>();
             foreach (var item in linesList)
             {
-                coordinatesList.Add(CoordinatesXY.ParseLine(item));
+                try
+                {
+                    coordinatesList.Add(CoordinatesXY.ParseLine(item));
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
             return coordinatesList;
         }
