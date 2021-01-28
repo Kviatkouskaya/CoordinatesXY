@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CoordinatesXY
 {
-    public struct coordinatesXY
+    public struct CoordinatesXY
     {
         public string X { set; get; }
         public string Y { set; get; }
@@ -15,24 +16,67 @@ namespace CoordinatesXY
     }
     class Program
     {
-        private static coordinatesXY ReadingLine(string line)
+        private static CoordinatesXY ReadingLine(string line)
         {
-            coordinatesXY coordinates = new coordinatesXY();
+            CheckExceptions(line);
+            CoordinatesXY coordinates = new CoordinatesXY();
             int commaIndex = line.IndexOf(',');
             coordinates.X = line[..commaIndex++];
             coordinates.Y = line[commaIndex..];
+
+            /*
+             Boolean isDouble(string stringNumber)
+            {
+                try
+                {
+                    double.TryParse(stringNumber, out double x);
+                    return true;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+            }*/
             return coordinates;
         }
-
-
+        public static void CheckExceptions(string checkingLine)
+        {
+            if (checkingLine.IndexOf(',') != checkingLine.LastIndexOf(','))
+            {
+                throw new FormatException(message: "Please, enter only two coordinates");
+            }
+        }
         static void Main()
         {
-            coordinatesXY xY = ReadingLine(Console.ReadLine());
-            PrintResult(xY);
+            List<string> linesList = new List<string>();
+            FullingLineList(linesList);
+            List<CoordinatesXY> coordinatesList = new List<CoordinatesXY>();
+            FullingCoordinatesList(coordinatesList, linesList);
+            PrintResult(coordinatesList);
 
-            static void PrintResult(coordinatesXY finalCoordinates)
+            static void FullingLineList(List<string> linesList)
             {
-                Console.WriteLine(finalCoordinates.ToString());
+                string line = Console.ReadLine();
+                while (line != string.Empty)
+                {
+                    linesList.Add(line);
+                    line = Console.ReadLine();
+                }
+            }
+            static void FullingCoordinatesList(List<CoordinatesXY> coordinateList, List<string> linesList)
+            {
+                foreach (var item in linesList)
+                {
+                    coordinateList.Add(ReadingLine(item));
+                }
+            }
+
+            static void PrintResult(List<CoordinatesXY>coordinates)
+            {
+                foreach (var item in coordinates)
+                {
+                    Console.WriteLine(item);
+                }
             }
         }
     }
