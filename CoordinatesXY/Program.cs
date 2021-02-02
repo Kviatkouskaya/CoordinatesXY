@@ -16,7 +16,7 @@ namespace CoordinatesXY
         }
         public static CoordinatesXY ParseLine(string line)
         {
-            CheckExceptions(line);
+            CheckException(line);
             CoordinatesXY coordinates = new CoordinatesXY();
             int commaIndex = line.IndexOf(',');
             coordinates.X = line[..commaIndex++];
@@ -27,9 +27,10 @@ namespace CoordinatesXY
             }
             throw new FormatException("Expect two double coordinates");
         }
-        private static void CheckExceptions(string checkingLine)
+        private static void CheckException(string checkingLine)
         {
-            if (checkingLine.IndexOf(',') != checkingLine.LastIndexOf(','))
+            string[] lineParts = checkingLine.Split(',');
+            if (lineParts.Length!=2)
             {
                 throw new FormatException("Entered more than two coordinates at one line");
             }
