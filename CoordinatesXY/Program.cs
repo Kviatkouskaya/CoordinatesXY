@@ -30,7 +30,7 @@ namespace CoordinatesXY
         private static void CheckException(string checkingLine)
         {
             string[] lineParts = checkingLine.Split(',');
-            if (lineParts.Length!=2)
+            if (lineParts.Length != 2)
             {
                 throw new FormatException("Entered more than two coordinates at one line");
             }
