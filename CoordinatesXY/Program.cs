@@ -21,11 +21,7 @@ namespace CoordinatesXY
             int commaIndex = line.IndexOf(',');
             coordinates.X = line[..commaIndex++];
             coordinates.Y = line[commaIndex..];
-            if (IsDouble(coordinates.X) && IsDouble(coordinates.Y))
-            {
-                return coordinates;
-            }
-            throw new FormatException("Expect two double coordinates");
+            return coordinates;
         }
         private static void CheckException(string checkingLine)
         {
@@ -33,6 +29,10 @@ namespace CoordinatesXY
             if (lineParts.Length != 2)
             {
                 throw new FormatException("Entered more than two coordinates at one line");
+            }
+            if (!(IsDouble(lineParts[0]) && IsDouble(lineParts[1])))
+            {
+                throw new FormatException("Expect two double coordinates");
             }
         }
         private static bool IsDouble(string stringNumber)
